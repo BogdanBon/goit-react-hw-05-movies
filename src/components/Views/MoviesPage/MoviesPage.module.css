@@ -1,0 +1,62 @@
+.container {
+  padding: 10px;
+}
+
+.input {
+  width: 300px;
+  height: 28px;
+  border-radius: 5px;
+}
+
+.btn {
+  display: inline-block;
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: rgb(250, 128, 114);
+  width: 100px;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+  transition: all 0.4s ease 0s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  background: rgb(67, 67, 67);
+  box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+  transition: all 0.4s ease 0s;
+}
+
+.item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.link {
+  text-decoration: none;
+  color: #000;
+  display: inline;
+  position: relative;
+  overflow: hidden;
+}
+.link:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 100%;
+  bottom: -5px;
+  background: #fa8072;
+  height: 4px;
+  transition-property: left right;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+}
+
+.link:hover:after,
+.link:focus:after,
+.link:active:after {
+  right: 0;
+}

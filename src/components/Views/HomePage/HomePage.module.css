@@ -1,0 +1,40 @@
+.container {
+  padding: 10px;
+}
+
+.title {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.link {
+  text-decoration: none;
+  color: #000;
+  display: inline;
+  position: relative;
+  overflow: hidden;
+}
+.link:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 100%;
+  bottom: -5px;
+  background: #fa8072;
+  height: 4px;
+  transition-property: left right;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+}
+
+.link:hover:after,
+.link:focus:after,
+.link:active:after {
+  right: 0;
+}
