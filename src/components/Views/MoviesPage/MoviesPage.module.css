@@ -1,5 +1,21 @@
 .container {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.list {
   padding: 10px;
+  width: 480px;
 }
 
 .input {

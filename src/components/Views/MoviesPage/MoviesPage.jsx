@@ -33,8 +33,8 @@ export default function MoviesPage() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmitFilm}>
+    <div className={s.container}>
+      <form className={s.form} onSubmit={handleSubmitFilm}>
         <input
           className={s.input}
           type="text"
@@ -60,7 +60,7 @@ export default function MoviesPage() {
       )}
 
       {status === 'resolved' && (
-        <div className={s.container}>
+        <div className={s.list}>
           <ul>
             {searchFilms.map(film => (
               <li className={s.item} key={film.id}>
@@ -72,6 +72,6 @@ export default function MoviesPage() {
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 }
