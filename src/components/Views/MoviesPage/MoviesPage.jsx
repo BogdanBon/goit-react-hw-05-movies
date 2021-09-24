@@ -64,7 +64,13 @@ export default function MoviesPage() {
           <ul>
             {searchFilms.map(film => (
               <li className={s.item} key={film.id}>
-                <Link to={`${url}/${film.id}`} className={s.link}>
+                <Link
+                  to={{
+                    pathname: `${url}/${film.id}`,
+                    state: { from: '/movies' },
+                  }}
+                  className={s.link}
+                >
                   {film.title}
                 </Link>
               </li>

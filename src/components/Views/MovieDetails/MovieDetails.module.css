@@ -30,7 +30,8 @@
   margin: 10px;
 }
 
-.link {
+.link,
+.btnBack {
   display: inline-block;
   color: #fff;
   font-weight: 500;
@@ -45,8 +46,18 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-.link:hover {
+.link:hover,
+.btnBack:hover {
   background: rgb(67, 67, 67);
   box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
   transition: all 0.4s ease 0s;
+}
+
+.btnBack {
+  color: #000;
+  background: rgba(0, 255, 255, 0.505);
+}
+
+.btnBack:hover {
+  color: #fff;
 }

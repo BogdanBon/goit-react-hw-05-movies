@@ -1,7 +1,7 @@
 import { Route, Switch, useParams } from 'react-router';
 import { useState, useEffect } from 'react';
 import { getYear, parseISO } from 'date-fns';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch, useHistory, useLocation } from 'react-router-dom';
 import Notiflix from 'notiflix';
 import Loader from 'react-loader-spinner';
 
@@ -14,9 +14,15 @@ export default function MovieDetails() {
   const [movie, setMovie] = useState('');
   const [genres, setGenres] = useState([]);
   const [status, setStatus] = useState('idle');
+  const history = useHistory();
+  const location = useLocation();
 
   let { movieId } = useParams();
   const { url } = useRouteMatch();
+
+  const handleGoBack = () => {
+    history.push(location.state?.from ? location.state.from : '/');
+  };
 
   useEffect(() => {
     setStatus('pending');
@@ -51,6 +57,9 @@ export default function MovieDetails() {
 
       {status === 'resolved' && (
         <>
+          <button className={s.btnBack} onClick={handleGoBack}>
+            Go back
+          </button>
           <div className={s.container}>
             <div className={s.info}>
               <h1 className={s.title}>

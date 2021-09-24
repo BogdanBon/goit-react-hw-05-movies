@@ -22,7 +22,13 @@ export default function HomePage() {
         <ul>
           {movies.map(movie => (
             <li className={s.item} key={movie.id}>
-              <Link to={`/movies/${movie.id}`} className={s.link}>
+              <Link
+                to={{
+                  pathname: `/movies/${movie.id}`,
+                  state: { from: '/' },
+                }}
+                className={s.link}
+              >
                 {movie.title}
               </Link>
             </li>
