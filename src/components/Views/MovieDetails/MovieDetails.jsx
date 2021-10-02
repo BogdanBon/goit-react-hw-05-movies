@@ -1,9 +1,14 @@
-import { Route, Switch, useParams } from 'react-router';
+import {
+  Route,
+  Switch,
+  useParams,
+  useHistory,
+  useLocation,
+} from 'react-router';
 import { useState, useEffect } from 'react';
 import { getYear, parseISO } from 'date-fns';
-import { Link, useRouteMatch, useHistory, useLocation } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import Notiflix from 'notiflix';
-import Loader from 'react-loader-spinner';
 
 import { fetchMovieById } from '../../../services/api';
 import Reviews from '../Reviews/Reviews';
@@ -13,28 +18,34 @@ import s from '../MovieDetails/MovieDetails.module.css';
 export default function MovieDetails() {
   const [movie, setMovie] = useState('');
   const [genres, setGenres] = useState([]);
-  const [status, setStatus] = useState('idle');
+  const [state, setState] = useState('idle');
+  const [goBack, setGoBack] = useState('');
   const history = useHistory();
   const location = useLocation();
 
   let { movieId } = useParams();
   const { url } = useRouteMatch();
 
-  const handleGoBack = () => {
-    history.push(location.state?.from ? location.state.from : '/');
-  };
-
   useEffect(() => {
-    setStatus('pending');
+    if (location.state) {
+      setGoBack(location.state.from);
+    }
 
     fetchMovieById(movieId)
       .then(data => {
         setMovie(data);
         setGenres(data.genres);
       })
-      .catch(error => Notiflix.Notify.failure(error))
-      .finally(() => setStatus('resolved'));
-  }, [movieId]);
+      .catch(error => Notiflix.Notify.failure(error));
+  }, [location.state, movieId]);
+
+  const handleGoBack = () => {
+    history.push(location.state?.from ? location.state.from : '/');
+  };
+
+  const changeState = state => {
+    setState(state);
+  };
 
   const renderImage = () => {
     if (!movie.poster_path) {
@@ -45,17 +56,7 @@ export default function MovieDetails() {
 
   return (
     <>
-      {status === 'pending' && (
-        <Loader
-          type="ThreeDots"
-          color="rgb(56, 56, 56)"
-          height={80}
-          width={80}
-          timeout={500}
-        />
-      )}
-
-      {status === 'resolved' && (
+      {movie && (
         <>
           <button className={s.btnBack} onClick={handleGoBack}>
             Go back
@@ -77,12 +78,24 @@ export default function MovieDetails() {
               <h4 className={s.details}>Additional information</h4>
               <ul>
                 <li>
-                  <Link to={`${url}/cast`} className={s.link}>
+                  <Link
+                    to={{
+                      pathname: `${url}/cast`,
+                      state: { from: `${goBack}` },
+                    }}
+                    className={s.link}
+                  >
                     Show Cast
                   </Link>
                 </li>
                 <li>
-                  <Link to={`${url}/reviews`} className={s.link}>
+                  <Link
+                    to={{
+                      pathname: `${url}/reviews`,
+                      state: { from: `${goBack}` },
+                    }}
+                    className={s.link}
+                  >
                     Show Reviews
                   </Link>
                 </li>
@@ -90,10 +103,18 @@ export default function MovieDetails() {
               <div>
                 <Switch>
                   <Route path={`${url}/cast`}>
-                    <Cast movieId={movieId}></Cast>
+                    <Cast
+                      movieId={movieId}
+                      state={state}
+                      changeState={changeState}
+                    ></Cast>
                   </Route>
                   <Route path={`${url}/reviews`}>
-                    <Reviews movieId={movieId}></Reviews>
+                    <Reviews
+                      movieId={movieId}
+                      state={state}
+                      changeState={changeState}
+                    ></Reviews>
                   </Route>
                 </Switch>
               </div>
